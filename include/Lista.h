@@ -11,6 +11,8 @@ class Lista
         Nodo *tail;
         int cont;
 
+        //Ordenamientos
+        void BubbleSort(Lista *lis);
         void InsertarFinal(Producto);
         void print(void);
 
