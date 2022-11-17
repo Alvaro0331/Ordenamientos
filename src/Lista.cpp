@@ -10,6 +10,52 @@ Lista::Lista()
     cont=0;
 }
 
+void Lista::InsertarFinal(Producto d){
+    Nodo *aux=new Nodo(d);
+
+    if(head==nullptr){
+        head=aux;
+    }
+    else{
+        tail->next=aux;
+        aux->prev=tail;
+    }
+    tail=aux;
+    cont++;
+}
+
+void Lista::printTail(){
+    Nodo *aux=tail;
+    if(head==nullptr){
+        cout<<"Lista vacia"<<endl;
+    }
+    else{
+        while(aux){
+            cout<<aux->data.ID<<" "<<aux->data.Name<<" $"<<aux->data.Price<<endl;
+            aux=aux->prev;
+        }
+    }
+}
+
+void Lista::printHead(){
+    Nodo *aux=head;
+
+    if(head==nullptr){
+        cout<<"Lista vacia"<<endl;
+    }
+    else{
+        cout<<"\tLista de productos:\n"<<endl;
+        while(aux){
+            cout<<aux->data.ID<<" "<<aux->data.Name<<" $"<<aux->data.Price<<endl;
+            aux=aux->next;
+        }
+    }
+}
+
+void Lista::tamanio(){
+    cout<<"La lista tiene "<<cont<<" guardados"<<endl;
+}
+
 void Lista::BubbleSort(Lista *lis){
     bool band=true;
     Nodo *sorted=tail;
@@ -31,7 +77,6 @@ void Lista::BubbleSort(Lista *lis){
 
                     unsorted=unsorted->next;
                     band=true;
-
                 }
                 else{
                     unsorted=unsorted->next;
@@ -42,31 +87,31 @@ void Lista::BubbleSort(Lista *lis){
     }
 }
 
-void Lista::InsertarFinal(Producto d){
-    Nodo *aux=new Nodo(d);
-
-    if(head==nullptr){
-        head=aux;
-    }
-    else{
-        tail->next=aux;
-        aux->prev=tail;
-    }
-    tail=aux;
-    cont++;
-}
-
-void Lista::print(){
-    Nodo *aux=head;
-
+void Lista::SelectSort(Lista *lis){
+    Nodo *sorted=head;
+    Producto aux;
     if(head==nullptr){
         cout<<"Lista vacia"<<endl;
     }
     else{
-        cout<<"\tLista de productos:\n"<<endl;
-        while(aux){
-            cout<<aux->data.ID<<" "<<aux->data.Name<<" $"<<aux->data.Price<<endl;
-            aux=aux->next;
+        while(sorted!=tail){
+            Nodo *unsorted=sorted->next;
+            Nodo *mini=sorted;
+            while(unsorted){
+                if(unsorted->data.ID < mini->data.ID){
+                    mini=unsorted;
+                }
+                else{
+                    unsorted=unsorted->next;
+                }
+            }
+            aux=sorted->data;
+            sorted->data=mini->data;
+            mini->data=aux;
+
+            sorted=sorted->next;
         }
     }
 }
+
+

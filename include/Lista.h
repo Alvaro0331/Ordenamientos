@@ -6,17 +6,22 @@ class Lista
 {
     public:
         Lista();
-
         Nodo *head;
         Nodo *tail;
         int cont;
-
+        //Insertar
+        void InsertarFinal(Producto);
+        //Mostrar
+        void printTail(void);
+        void printHead(void);
+        void tamanio(void);
         //Ordenamientos
         void BubbleSort(Lista *lis);
-        void InsertarFinal(Producto);
-        void print(void);
-
-
+        void SelectSort(Lista *lis);
+        void InsertSort(Lista *lis);
+        void QuickSort(Lista *lis);
+        void MergeSort(Lista *lis);
+        void ShellSort(Lista *lis);
 };
 
 #endif // LISTA_H
