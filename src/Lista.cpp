@@ -114,4 +114,84 @@ void Lista::SelectSort(Lista *lis){
     }
 }
 
+void Lista::InsertSort(Lista *lis){
+    Nodo *sorted=head;
+    Nodo *aux;
+    Nodo *unsorted;
+    if(head==nullptr){cout<<"Lista vacia"<<endl;}
+    else{
+        while(sorted!=tail){
+            unsorted=sorted->next;
+            aux=sorted;
+            while(aux and aux->data.ID > unsorted->data.ID){
+                aux=aux->prev;
+            }
+            unsorted->prev->next=unsorted->next;
+            unsorted->next->prev=unsorted->prev;
+
+            if(aux==nullptr){
+                unsorted->next=head;
+                head->prev=unsorted;
+                head=unsorted;
+            }
+            else{
+                unsorted->prev=aux->prev;
+                unsorted->next=aux;
+                aux->prev->next=unsorted;
+                aux->prev=unsorted;
+            }
+            printHead();
+            sorted=sorted->next;
+        }
+    }
+}
+
+void Lista::QuickSort(Lista *lis){
+    Nodo *piv;
+    Nodo *pivSave;
+    Nodo *aux;
+
+    Lista *mayor=new Lista;
+    Lista *menor=new Lista;
+
+    if(lis->head){
+        piv=lis->head;
+        pivSave=new Nodo (lis->head->data);
+        aux=lis->head->next;
+
+        while(aux){
+            if((aux->data.ID)< (piv->data.ID)){
+                menor->InsertarFinal(aux->data);
+            }
+            else{
+                mayor->InsertarFinal(aux->data);
+            }
+            aux=aux->next;
+        }
+
+        QuickSort(menor);
+        QuickSort(mayor);
+
+        //Menor
+        aux=lis->head;
+        Nodo *low=menor->head;
+        while(low){
+            aux->data=low->data;
+            aux=aux->next;
+            low=low->next;
+        }
+        //Pivote
+        {
+            aux->data=pivSave->data;
+            aux=aux->next;
+        }
+        //Mayor
+        Nodo *up=mayor->head;
+        while(up){
+            aux->data=up->data;
+            aux=aux->next;
+            up=up->next;
+        }
+    }
+}
 
