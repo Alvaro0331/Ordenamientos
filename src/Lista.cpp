@@ -195,3 +195,36 @@ void Lista::QuickSort(Lista *lis){
     }
 }
 
+void Lista::ShellSort(Lista *lis,int cont){
+    Nodo *unsorted=head;
+    Nodo *comp=head;
+    Producto aux;
+    int gap,mov;
+    bool band=true;
+
+    if(head==nullptr){
+        cout<<"Lista vacia"<<endl;
+    }
+    else{
+        while(gap>1 and band){
+            band=false;
+            gap=cont/2;
+            mov=0;
+            while(mov<cont-gap){
+                unsorted=unsorted->next;
+                mov++;
+            }
+            while(unsorted){
+                if((comp->data.ID)>(unsorted->data.ID)){
+                    aux=comp->data;
+                    comp->data=unsorted->data;
+                    unsorted->data=aux;
+                    band=true;
+                }
+                unsorted=unsorted->next;
+                comp=comp->next;
+            }
+            gap=gap/2;
+        }
+    }
+}
