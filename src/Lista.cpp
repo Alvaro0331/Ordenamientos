@@ -140,7 +140,6 @@ void Lista::InsertSort(Lista *lis){
                 aux->prev->next=unsorted;
                 aux->prev=unsorted;
             }
-            printHead();
             sorted=sorted->next;
         }
     }
@@ -195,11 +194,74 @@ void Lista::QuickSort(Lista *lis){
     }
 }
 
+void Lista::MergeSort(Lista *lis,int tam){
+    Lista *derecha=new Lista();
+    Lista *izquierda=new Lista();
+    Nodo *aux=lis->head;
+    int media=lis->cont/2;
+    int dif=tam%2;
+    int i,j;
+
+    if(lis->cont>1){
+        i=0;
+        while(i<media and aux){
+            izquierda->InsertarFinal(aux->data);
+            i++;
+            aux=aux->next;
+        }
+        j=0;
+        while(j<media+dif and aux){
+            derecha->InsertarFinal(aux->data);
+            j++;
+            aux=aux->next;
+        }
+        MergeSort(izquierda,izquierda->cont);
+        MergeSort(derecha,derecha->cont);
+
+        //Merge process
+        Nodo *izq=izquierda->head;
+        Nodo *der=derecha->head;
+        aux=lis->head;
+        i=0;
+
+        while(aux && izq && der){
+            if((izq->data.ID) < (der->data.ID)){
+                aux->data=izq->data;
+                izq=izq->next;
+                aux=aux->next;
+            }
+            else{
+                aux->data=der->data;
+                aux=aux->next;
+                der=der->next;
+            }
+        }
+        //Guardar derecha e izquierda
+         if(izq){
+            while(izq){
+                aux->data=izq->data;
+                izq=izq->next;
+                aux=aux->next;
+            }
+         }
+         if(der){
+            while(der){
+                aux->data=der->data;
+                der=der->next;
+                aux=aux->next;
+            }
+         }
+    }
+}
+
 void Lista::ShellSort(Lista *lis,int cont){
     Nodo *unsorted=head;
     Nodo *comp=head;
     Producto aux;
-    int gap,mov;
+    int mov,gap=cont/2;
+    //Apoyo para comparar la parte anterior
+    Nodo *uns;
+    int mov2;
     bool band=true;
 
     if(head==nullptr){
@@ -208,9 +270,8 @@ void Lista::ShellSort(Lista *lis,int cont){
     else{
         while(gap>1 and band){
             band=false;
-            gap=cont/2;
             mov=0;
-            while(mov<cont-gap){
+            while(mov<gap){
                 unsorted=unsorted->next;
                 mov++;
             }
@@ -220,11 +281,26 @@ void Lista::ShellSort(Lista *lis,int cont){
                     comp->data=unsorted->data;
                     unsorted->data=aux;
                     band=true;
+                    //Comparo la parte anterior
+                    if(band){
+                        mov2=0;
+                        uns=comp;
+                        while(mov2<gap and uns){
+                            uns=uns->prev;
+                            mov2++;
+                        }
+                        if(uns and (uns->data.ID) > (comp->data.ID)){
+                            aux=uns->data;
+                            uns->data=comp->data;
+                            comp->data=aux;
+                        }
+                    }
                 }
                 unsorted=unsorted->next;
                 comp=comp->next;
             }
             gap=gap/2;
         }
+        //InsertSort(lis);
     }
 }

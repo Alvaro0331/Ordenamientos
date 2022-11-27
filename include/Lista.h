@@ -20,7 +20,7 @@ class Lista
         void SelectSort(Lista *lis);
         void InsertSort(Lista *lis);
         void QuickSort(Lista *lis);
-        void MergeSort(Lista *lis);
+        void MergeSort(Lista *lis,int);
         void ShellSort(Lista *lis,int);
 };
 
