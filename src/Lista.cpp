@@ -132,6 +132,7 @@ void Lista::InsertSort(Lista *lis){
             if(aux==nullptr){
                 unsorted->next=head;
                 head->prev=unsorted;
+                unsorted->prev=nullptr;
                 head=unsorted;
             }
             else{
